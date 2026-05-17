@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Hand Talk</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Bebas+Neue&display=swap');
+
+    :root {
+      --primary: #00c7d9;
+      --secondary: #00aebd;
+      --bg: #1a1b31;
+      --text: #eaeaea;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(0, 217, 255, 0.15), transparent 35%),
+        var(--bg);
+    }
+
+    .hero-title {
+      font-family: 'Bebas Neue', cursive;
+      letter-spacing: 8px;
+      color: var(--primary);
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .btn-modern {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      transition: 0.3s;
+    }
+
+    .btn-modern:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+    }
+
+    .tab-modern {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      transition: 0.3s;
+    }
+
+    .tab-modern.active {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+    }
+
+    .upload-zone {
+      border: 3px dashed var(--primary);
+      background: rgba(0, 199, 217, 0.08);
+      transition: 0.3s;
+    }
+
+    .upload-zone:hover {
+      transform: scale(1.02);
+      border-style: solid;
+    }
+
+    textarea {
+      background: rgba(255, 255, 255, 0.07);
+      color: white;
+      border: 2px solid rgba(255, 255, 255, 0.12);
+    }
+
+    textarea:focus {
+      border-color: var(--primary);
+    }
+
+    .result-box {
+      background: rgba(0, 199, 217, 0.14);
+      border-left: 5px solid var(--primary);
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="py-20">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+
+      <div class="inline-flex items-center gap-8 mb-10">
+        <div class="w-32 h-32 rounded-3xl flex items-center justify-center text-7xl"
+          style="background: linear-gradient(135deg, var(--primary), var(--secondary));">
+          🤟
+        </div>
+
+        <h1 class="hero-title text-8xl">
+          HAND TALK
+        </h1>
+      </div>
+
+      <p id="siteTagline" class="text-3xl opacity-80 max-w-4xl mx-auto">
+        منصة ذكية للترجمة الفورية بين لغة الإشارة والنصوص
+      </p>
+
+    </div>
+  </header>
+
+  <section class="max-w-6xl mx-auto px-6 mb-20">
+    <div class="flex justify-center gap-12">
+
+      <button id="btnArabic"
+        class="tab-modern active px-20 py-8 rounded-3xl font-bold text-3xl">
+        العربية
+      </button>
+
+      <button id="btnEnglish"
+        class="tab-modern px-20 py-8 rounded-3xl font-bold text-3xl">
+        English
+      </button>
+
+    </div>
+  </section>
+
+  <main class="max-w-6xl mx-auto px-6 pb-24">
+
+    <div class="grid lg:grid-cols-2 gap-10 mb-16">
+
+      <!-- IMAGE TO TEXT -->
+      <div class="glass-card rounded-3xl p-8">
+
+        <div class="flex items-center gap-4 mb-8">
+          <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl"
+            style="background: linear-gradient(135deg, var(--primary), var(--secondary));">
+            📷
+          </div>
+
+          <div>
+            <h2 id="signToTextTitle" class="text-3xl font-bold">
+              لغة الإشارة إلى نص
+            </h2>
+
+            <p id="signToTextDesc" class="text-sm opacity-70 mt-1">
+              ارفع صورة أو افتح الكاميرا للترجمة
+            </p>
+          </div>
+        </div>
+
+        <div class="upload-zone rounded-2xl p-14 text-center mb-5 cursor-pointer"
+          id="uploadArea">
+
+          <input type="file"
+            id="imageInput"
+            accept="image/*"
+            class="hidden">
+
+          <div class="text-5xl mb-4">📤</div>
+
+          <p id="uploadText" class="font-bold text-lg mb-2">
+            انقر لإدراج الصورة
+          </p>
+
+          <p id="uploadDesc" class="text-sm opacity-60">
+            صورة فقط JPG أو PNG
+          </p>
+
+        </div>
+
+        <div id="imagePreviewBox" class="hidden mb-5">
+          <img id="imagePreview" class="w-full rounded-2xl" alt="preview">
+        </div>
+
+        <button id="btnOpenCamera"
+          class="btn-modern w-full mb-4 py-4 rounded-xl font-bold text-lg">
+          فتح الكاميرا 📷
+        </button>
+
+        <div id="cameraBox" class="hidden mb-5">
+
+          <video id="cameraPreview"
+            class="w-full rounded-2xl"
+            autoplay
+            playsinline></video>
+
+          <button id="captureImage"
+            class="btn-modern w-full mt-3 py-3 rounded-xl font-bold">
+            التقاط صورة 📸
+          </button>
+
+          <button id="btnCloseCamera"
+            class="w-full mt-3 py-3 rounded-xl font-bold bg-red-500 text-white">
+            إغلاق الكاميرا
+          </button>
+
+        </div>
+
+        <button id="btnTranslateImage"
+          class="btn-modern w-full py-4 rounded-xl font-bold text-lg">
+          ترجم الآن ⚡
+        </button>
+
+        <div id="translationResult" class="hidden mt-6 p-6 rounded-2xl result-box">
+          <p id="translatedLabel" class="text-xs font-bold mb-3 uppercase opacity-60">
+            النص المترجم
+          </p>
+
+          <p id="translatedText" class="text-2xl leading-relaxed font-semibold"></p>
+        </div>
+
+      </div>
+
+      <!-- TEXT TO SIGN -->
+      <div class="glass-card rounded-3xl p-8">
+
+        <div class="flex items-center gap-4 mb-8">
+          <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl"
+            style="background: linear-gradient(135deg, var(--secondary), var(--primary));">
+            ✍️
+          </div>
+
+          <div>
+            <h2 id="textToSignTitle" class="text-3xl font-bold">
+              نص إلى لغة الإشارة
+            </h2>
+
+            <p id="textToSignDesc" class="text-sm opacity-70 mt-1">
+              اكتب النص لترجمته
+            </p>
+          </div>
+        </div>
+
+        <textarea id="textInput"
+          class="w-full h-56 p-6 rounded-2xl resize-none text-lg focus:outline-none"
+          placeholder="اكتب النص هنا للترجمة إلى لغة الإشارة..."></textarea>
+
+        <button id="btnTranslateText"
+          class="btn-modern w-full mt-6 py-4 rounded-xl font-bold text-lg">
+          ترجم إلى لغة الإشارة 🤟
+        </button>
+
+        <div id="signImages"
+          class="flex flex-wrap gap-4 mt-6 justify-center">
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <script>
+
+    let currentLanguage = 'ar';
+    let selectedImage = null;
+    let cameraStream = null;
+
+    const translations = {
+      ar: {
+        siteTagline: 'منصة ذكية للترجمة الفورية بين لغة الإشارة والنصوص',
+        signToTextTitle: 'لغة الإشارة إلى نص',
+        signToTextDesc: 'ارفع صورة أو افتح الكاميرا للترجمة',
+        textToSignTitle: 'نص إلى لغة الإشارة',
+        textToSignDesc: 'اكتب النص لترجمته',
+        uploadText: 'انقر لإدراج الصورة',
+        uploadDesc: 'صورة فقط JPG أو PNG',
+        openCamera: 'فتح الكاميرا 📷',
+        captureImage: 'التقاط صورة 📸',
+        closeCamera: 'إغلاق الكاميرا',
+        translateImage: 'ترجم الآن ⚡',
+        translatedLabel: 'النص المترجم',
+        textPlaceholder: 'اكتب النص هنا للترجمة إلى لغة الإشارة...',
+        translateText: 'ترجم إلى لغة الإشارة 🤟',
+        alertImage: 'الرجاء رفع صورة أو التقاط صورة أولاً',
+        alertCamera: 'لم يتم السماح بفتح الكاميرا',
+        alertText: 'اكتبي نص أولاً',
+        noSigns: 'لم يتم العثور على صور مناسبة'
+      },
+      en: {
+        siteTagline: 'Smart platform for instant translation between sign language and text',
+        signToTextTitle: 'Sign Language to Text',
+        signToTextDesc: 'Upload an image or open the camera for translation',
+        textToSignTitle: 'Text to Sign Language',
+        textToSignDesc: 'Write text to translate it',
+        uploadText: 'Click to insert an image',
+        uploadDesc: 'Image only JPG or PNG',
+        openCamera: 'Open Camera 📷',
+        captureImage: 'Capture Image 📸',
+        closeCamera: 'Close Camera',
+        translateImage: 'Translate Now ⚡',
+        translatedLabel: 'Translated Text',
+        textPlaceholder: 'Write text here to translate to sign language...',
+        translateText: 'Translate to Sign Language 🤟',
+        alertImage: 'Please upload or capture an image first',
+        alertCamera: 'Camera permission was not allowed',
+        alertText: 'Please enter text first',
+        noSigns: 'No matching sign images found'
+      }
+    };
+
+    function changeLanguage(lang) {
+      currentLanguage = lang;
+      const t = translations[lang];
+
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+
+      document.getElementById('siteTagline').textContent = t.siteTagline;
+      document.getElementById('signToTextTitle').textContent = t.signToTextTitle;
+      document.getElementById('signToTextDesc').textContent = t.signToTextDesc;
+      document.getElementById('textToSignTitle').textContent = t.textToSignTitle;
+      document.getElementById('textToSignDesc').textContent = t.textToSignDesc;
+
+      document.getElementById('uploadText').textContent = t.uploadText;
+      document.getElementById('uploadDesc').textContent = t.uploadDesc;
+
+      document.getElementById('btnOpenCamera').textContent = t.openCamera;
+      document.getElementById('captureImage').textContent = t.captureImage;
+      document.getElementById('btnCloseCamera').textContent = t.closeCamera;
+      document.getElementById('btnTranslateImage').textContent = t.translateImage;
+      document.getElementById('translatedLabel').textContent = t.translatedLabel;
+
+      document.getElementById('textInput').placeholder = t.textPlaceholder;
+      document.getElementById('btnTranslateText').textContent = t.translateText;
+
+      document.getElementById('btnArabic').classList.toggle('active', lang === 'ar');
+      document.getElementById('btnEnglish').classList.toggle('active', lang === 'en');
+
+      document.getElementById('signImages').innerHTML = '';
+    }
+
+    document.getElementById('btnArabic').addEventListener('click', () => {
+      changeLanguage('ar');
+    });
+
+    document.getElementById('btnEnglish').addEventListener('click', () => {
+      changeLanguage('en');
+    });
+
+    const uploadArea = document.getElementById('uploadArea');
+    const imageInput = document.getElementById('imageInput');
+
+    uploadArea.addEventListener('click', () => {
+      imageInput.click();
+    });
+
+    imageInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+
+      if (file) {
+        selectedImage = file;
+
+        const imageURL = URL.createObjectURL(file);
+
+        document.getElementById('imagePreview').src = imageURL;
+        document.getElementById('imagePreviewBox').classList.remove('hidden');
+      }
+    });
+
+    const cameraPreview = document.getElementById('cameraPreview');
+
+    document.getElementById('btnOpenCamera').addEventListener('click', async () => {
+      try {
+        cameraStream = await navigator.mediaDevices.getUserMedia({
+          video: true
+        });
+
+        cameraPreview.srcObject = cameraStream;
+        document.getElementById('cameraBox').classList.remove('hidden');
+
+      } catch (error) {
+        alert(translations[currentLanguage].alertCamera);
+      }
+    });
+
+    document.getElementById('btnCloseCamera').addEventListener('click', () => {
+      if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+      }
+
+      document.getElementById('cameraBox').classList.add('hidden');
+    });
+
+    document.getElementById('captureImage').addEventListener('click', () => {
+      const canvas = document.createElement('canvas');
+
+      canvas.width = cameraPreview.videoWidth;
+      canvas.height = cameraPreview.videoHeight;
+
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(cameraPreview, 0, 0);
+
+      canvas.toBlob(blob => {
+        selectedImage = blob;
+
+        const imageURL = URL.createObjectURL(blob);
+
+        document.getElementById('imagePreview').src = imageURL;
+        document.getElementById('imagePreviewBox').classList.remove('hidden');
+
+      }, 'image/png');
+    });
+
+    document.getElementById('btnTranslateImage').addEventListener('click', async () => {
+      if (!selectedImage) {
+        alert(translations[currentLanguage].alertImage);
+        return;
+      }
+
+      const formData = new FormData();
+
+      formData.append('image', selectedImage);
+      formData.append('language', currentLanguage);
+
+      const response = await fetch('/predict', {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+
+      document.getElementById('translatedText').textContent =
+        data.prediction + " | confidence: " + data.confidence;
+
+      document.getElementById('translationResult').classList.remove('hidden');
+    });
+
+    document.getElementById('btnTranslateText').addEventListener('click', async () => {
+      const text = document.getElementById('textInput').value.trim();
+
+      if (!text) {
+        alert(translations[currentLanguage].alertText);
+        return;
+      }
+
+      const endpoint = currentLanguage === 'en'
+        ? '/text_to_sign_en'
+        : '/text_to_sign_ar';
+
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          text: text
+        })
+      });
+
+      const data = await response.json();
+
+      const container = document.getElementById('signImages');
+      container.innerHTML = '';
+
+      if (!data.images || data.images.length === 0) {
+        const msg = document.createElement('p');
+        msg.textContent = translations[currentLanguage].noSigns;
+        msg.className = 'opacity-70 text-center';
+        container.appendChild(msg);
+        return;
+      }
+
+      data.images.forEach(imgPath => {
+        const img = document.createElement('img');
+
+        img.src = imgPath;
+        img.className = 'w-24 h-24 rounded-xl object-cover border border-white/20 shadow-lg';
+
+        container.appendChild(img);
+      });
+    });
+
+  </script>
+
+</body>
+
+</html>
