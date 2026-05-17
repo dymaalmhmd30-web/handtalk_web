@@ -13,9 +13,8 @@ app = Flask(__name__)
 # =========================
 # LOAD MODELS
 # =========================
-arabic_model = tf.saved_model.load("arabic_saved_model")
-english_model = tf.saved_model.load("english_saved_model")
-
+arabic_model = tf.keras.models.load_model("arabic_model_fixed.h5", compile=False)
+english_model = tf.keras.models.load_model("english_model.h5", compile=False)
 # =========================
 # LOAD ENGLISH LABEL ENCODER
 # =========================
@@ -109,23 +108,12 @@ def predict():
             dtype=np.float32
         ).reshape(1, 63)
 
-        infer_en = english_model.signatures["serving_default"]
-
-        prediction = infer_en(
-            tf.convert_to_tensor(
-                landmarks,
-                dtype=tf.float32
-            )
-        )
-
-        prediction = list(
-            prediction.values()
-        )[0].numpy()
+        
+        prediction = english_model.predict(landmarks)
 
         predicted_index = int(np.argmax(prediction))
 
         predicted_class = english_classes[predicted_index]
-
         confidence = float(np.max(prediction))
 
     # =========================
@@ -145,25 +133,13 @@ def predict():
             axis=0
         )
 
-        infer_ar = arabic_model.signatures["serving_default"]
-
-        prediction = infer_ar(
-            tf.convert_to_tensor(
-                img_array,
-                dtype=tf.float32
-            )
-        )
-
-        prediction = list(
-            prediction.values()
-        )[0].numpy()
+        prediction = arabic_model.predict(img_array)
 
         predicted_index = int(np.argmax(prediction))
 
         predicted_class = arabic_classes[predicted_index]
 
         confidence = float(np.max(prediction))
-
     return jsonify({
         "prediction": predicted_class,
         "confidence": round(confidence, 2)
