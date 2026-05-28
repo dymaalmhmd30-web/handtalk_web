@@ -9,9 +9,8 @@ HandTalk is a bilingual sign language translation system designed to support com
 - Real-Time Camera Prediction
 - Image Upload Prediction
 - Text-to-Sign Translation
-- Web-Based Interactive Interface
 - MediaPipe Hand Landmark Detection
-- Deep Learning-Based Gesture Recognition
+- Web-Based Interactive Interface
 
 ## Technologies Used
 
@@ -23,16 +22,6 @@ HandTalk is a bilingual sign language translation system designed to support com
 - CSS
 - JavaScript
 - Hugging Face Spaces
-
-## Deep Learning Models
-
-The project includes multiple deep learning and computer vision approaches for sign language recognition, including:
-
-- CNN (Convolutional Neural Network)
-- MobileNetV2
-- MediaPipe + MLP Classifier
-
-The final English recognition model is based on MediaPipe hand landmark extraction combined with an MLP classifier, while MobileNetV2 was utilized for Arabic sign language recognition.
 
 ## Project Structure
 
@@ -51,6 +40,7 @@ handtalk-web/
 │
 ├── static/
 └── templates/
+```
 
 ## Dataset Sources
 
@@ -60,28 +50,37 @@ handtalk-web/
 
 ### English Sign Language Dataset
 - ASL Alphabet Dataset
-Installation
+
+## Installation
 
 Clone the repository:
 
+```bash
 git clone https://github.com/Deema190/handtalk-web.git
+```
 
 Install dependencies:
 
+```bash
 pip install -r requirements.txt
+```
 
 Run the application:
 
+```bash
 python app.py
+```
 
-Deployment
+## Deployment
 
 The system was deployed using Hugging Face Spaces with Docker support.
 
-Live Demo
+## Live Demo
 
 Hugging Face Deployment:
 
-(https://huggingface.co/spaces/Deema190/handtalk-web)
+https://huggingface.co/spaces/Deema190/handtalk-web
 
-Authors
+## Authors
+
+- Deema Abdullah
