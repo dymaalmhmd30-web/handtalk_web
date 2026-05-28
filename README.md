@@ -50,7 +50,10 @@ handtalk-web/
 
 ### English Sign Language Dataset
 - ASL Alphabet Dataset
+
 Datasets were obtained from publicly available Kaggle sources.
+
+
 ## Installation
 
 Clone the repository:
