@@ -86,4 +86,7 @@ https://huggingface.co/spaces/Deema190/handtalk-web
 
 ## Authors
 
-- Deema Abdullah
+- Deema Almohamad
+- Rimas Almalki 
+- Rawyah Alasmari
+- Sara Alzolafy
