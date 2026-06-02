@@ -84,6 +84,13 @@ Hugging Face Deployment:
 
 https://huggingface.co/spaces/Deema190/handtalk-web
 
+##Dataset Download:
+Dataset 1
+📁 [Google Drive Folder](https://drive.google.com/drive/folders/1uCfSaOPuiUjue3zUnzA_DyTMgcuTtstb?usp=sharing)
+
+Dataset 2
+📁 [Google Drive Folder](https://drive.google.com/drive/folders/1gBS3SGrezm0mkxRensDPfkucsK7ICNZG?usp=sharing)
+
 ## Authors
 
 - Deema Almohamad
